@@ -1,0 +1,30 @@
+application:
+    bucket:
+        name: autopartsmanager-file
+
+
+spring:
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri:
+                    jwk-set-uri:
+
+    servlet:
+        multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+    datasource:
+        url: jdbc:mysql://localhost/autopartsmanager?createDatabaseIfNotExist=true
+        username: root
+        password:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+server:
+    servlet:
+        context-path: /api
+    port: 9090
