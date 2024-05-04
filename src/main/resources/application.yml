@@ -1,3 +1,13 @@
+cloud:
+    aws:
+        credentials:
+            access-key:
+            secret-key:
+        region:
+            static: eu-west-1
+        stack:
+            auto: false
+
 application:
     bucket:
         name: autopartsmanager-file
