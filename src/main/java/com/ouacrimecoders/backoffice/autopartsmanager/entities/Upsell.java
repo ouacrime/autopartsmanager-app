@@ -35,7 +35,7 @@ public class Upsell implements Serializable {
     @ManyToOne
     @JoinColumn(name = "PACKAGE_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     @NotFound(action = NotFoundAction.IGNORE)
-    private Package Package;
+    private Packagee Package;
 
 
     @ManyToOne

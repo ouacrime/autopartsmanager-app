@@ -27,11 +27,11 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
     private final ClientDao clientDao;
     private final ClientMapper clientMapper;
-    private final SecurityUsersProviderService securityUsersProviderService;
-    @Value("${myKeycloak.client.default-role-id}")
-    private String defaultRoleId;
-    @Value("${myKeycloak.client.default-role-name}")
-    private String defaultRoleName;
+    //private final SecurityUsersProviderService securityUsersProviderService;
+//    @Value("${myKeycloak.client.default-role-id}")
+//    private String defaultRoleId;
+//    @Value("${myKeycloak.client.default-role-name}")
+//    private String defaultRoleName;
 
     @Override
     public List<ClientDto> getClientsByQuery(Long clientId, String firstName, String lastName,
@@ -74,9 +74,9 @@ public class ClientServiceImpl implements ClientService {
     public ResponseDto deleteClientById(Long id, String token) {
         ClientDto clientDto = getClientById(id);
 
-        SecurityUserDto securityUserDto = securityUsersProviderService.getUserByUsername(clientDto.getEmail(), token);
+        //SecurityUserDto securityUserDto = securityUsersProviderService.getUserByUsername(clientDto.getEmail(), token);
         // Delete client from Keycloak
-        securityUsersProviderService.deleteUserById(securityUserDto.getId(), token);
+        //securityUsersProviderService.deleteUserById(securityUserDto.getId(), token);
 
         // Delete client from database
         clientDao.deleteById(id);

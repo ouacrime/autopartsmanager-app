@@ -46,5 +46,5 @@ public class SaleDetails {
     @ManyToOne
     @JoinColumn(name = "package_id", referencedColumnName = "ID", insertable = false, updatable = false)
     @NotFound(action = NotFoundAction.IGNORE)
-    private Package pPackage;
+    private Packagee pPackage;
 }

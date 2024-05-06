@@ -12,6 +12,12 @@ application:
     bucket:
         name: autopartsmanager-file
 
+jwt:
+    auth:
+        converter:
+            resource-id: autopartsmanager-service-client
+            principle-attribute: preferred_username
+
 
 spring:
     security:

@@ -37,7 +37,7 @@ public interface ProductDao extends JpaRepository<Product, Long>, JpaSpecificati
             Pageable pageable
     );
 
-    @Query(value = "SELECT new com.benkitoucoders.ecommerce.dtos.ProductDto(" +
+    @Query(value = "SELECT new com.ouacrimecoders.backoffice.autopartsmanager.dtos.ProductDto(" +
             " p.id, p.name, p.description, p.price, p.comparePrice, p.quantity, p.visibility, p.categoryId, c.name, p.dateCreated, p.dateUpdated, i.name, i.filePath)" +
             " FROM Product p" +
             " LEFT JOIN Category c ON p.categoryId = c.id" +
@@ -46,7 +46,7 @@ public interface ProductDao extends JpaRepository<Product, Long>, JpaSpecificati
     List<ProductDto> getLastRecordedProductsByQuery(
     );
 
-    @Query("SELECT new com.benkitoucoders.ecommerce.dtos.ProductDto(" +
+    @Query("SELECT new com.ouacrimecoders.backoffice.autopartsmanager.dtos.ProductDto(" +
             " p.id, p.name, p.description, p.price, p.comparePrice, p.quantity, p.visibility, p.categoryId, c.name, p.dateCreated, p.dateUpdated, i.name, i.filePath)" +
             " FROM Product p " +
             " LEFT JOIN Category c ON p.categoryId = c.id " +

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class PackageServiceImpl implements PackageService {
 
@@ -25,7 +26,7 @@ public class PackageServiceImpl implements PackageService {
     private PackageRepository packageRepository;
     @Autowired
     private PackageMapper packageMapper;
-    
+
     @Autowired
     private PackageProductService packageProductService;
     @Autowired
@@ -33,7 +34,7 @@ public class PackageServiceImpl implements PackageService {
     public List<PackageDto> findPackagesByCriteria(PackageCriteria packageCriteria)  {
         List<PackageDto> packageDtosList=packageRepository.getAllPackageByQuery(packageCriteria.getId(),packageCriteria.getName(),packageCriteria.getActive());
         PackageProductCriteria packageProductCriteria=new PackageProductCriteria();
-        List<PackageProductDto> packageProductDtoList=new ArrayList<>();
+        List<PackageProductDto> packageProductDtoList = new ArrayList<>();
         ProductDto productDto1=null;
 
         if(packageDtosList.isEmpty())
@@ -48,30 +49,30 @@ public class PackageServiceImpl implements PackageService {
                 packageDto.getProductDtos().add(productDto1);
             }
         }
-     return packageDtosList;
+        return packageDtosList;
     }
     public PackageDto findPackagesById(Long id) throws EntityNotFoundException {
         PackageCriteria packageCriteria=PackageCriteria.builder().id(id).build();
         List<PackageDto> packageDtosList=packageRepository.getAllPackageByQuery(
                 packageCriteria.getId(),packageCriteria.getName(),packageCriteria.getActive());
-       if(packageDtosList.isEmpty()){
-           throw new EntityNotFoundException("this package n'existe pas ");
-       }
-       return packageDtosList.get(0);
+        if(packageDtosList.isEmpty()){
+            throw new EntityNotFoundException("this package n'existe pas ");
+        }
+        return packageDtosList.get(0);
     }
 
     public PackageDto persistPackages(PackageDto packagesDto) throws EntityNotFoundException {
-        PackageDto packageDto=packageMapper.modelToDto(packageRepository.save(packageMapper.dtoToModel(packagesDto)));
-        if(packageDto.getProductDtos()!=null){
-            PackageProductDto packageProductDto=new PackageProductDto();
-            packageDto.getProductDtos().forEach(productDto -> {
-//                ProductDto productDto1 = productService.addProduct(productDto);
+//        PackageDto packageDto=packageMapper.modelToDto(packageRepository.save(packageMapper.dtoToModel(packagesDto)));
+//        if(packageDto.getProductDtos()!=null){
+//            PackageProductDto packageProductDto=new PackageProductDto();
+//            packageDto.getProductDtos().forEach(productDto -> {
+////                ProductDto productDto1 = productService.addProduct(productDto);
 //                packageProductDto.setProductId(productDto1.getId());
 //                packageProductDto.setPackageId(packageDto.getId());
 //                packageProductService.persistPackageProduct(packageProductDto);
-            });
-        }
-        return packageDto;
+//            });
+//        }
+        return null;
     }
 
     public PackageDto updatePackages(Long id, PackageDto packagesDto) throws EntityNotFoundException {

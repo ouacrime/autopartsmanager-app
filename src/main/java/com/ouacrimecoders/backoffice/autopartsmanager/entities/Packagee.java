@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Builder
-public class Package implements Serializable {
+public class Packagee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
