@@ -15,7 +15,7 @@ import static com.ouacrimecoders.backoffice.autopartsmanager.utils.TokenManageme
 @RestController
 @RequestMapping("/clients")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:58213", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ClientController {
     private ClientService clientService;
 
@@ -40,8 +40,8 @@ public class ClientController {
     public ResponseEntity<ClientDto> addClient(
             HttpServletRequest request,
             @RequestBody ClientDto clientDto) throws IOException {
-        String token = extractToken(request);
-        return ResponseEntity.ok().body(clientService.addClient(clientDto, token));
+        //String token = extractToken(request);
+        return ResponseEntity.ok().body(clientService.addClient(clientDto, null)); //token
     }
 
 
@@ -54,7 +54,7 @@ public class ClientController {
     @DeleteMapping("/{clientId}")
     public ResponseEntity<?> deleteClientById(@PathVariable Long clientId, HttpServletRequest request
     ) {
-        String token = extractToken(request);
-        return ResponseEntity.ok().body(clientService.deleteClientById(clientId, token));
+        //String token = extractToken(request);
+        return ResponseEntity.ok().body(clientService.deleteClientById(clientId, null));//replace null token
     }
 }

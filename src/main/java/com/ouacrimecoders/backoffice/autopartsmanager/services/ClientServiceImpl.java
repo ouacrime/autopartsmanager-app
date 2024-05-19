@@ -27,7 +27,7 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
     private final ClientDao clientDao;
     private final ClientMapper clientMapper;
-    //private final SecurityUsersProviderService securityUsersProviderService;
+  //  private final SecurityUsersProviderService securityUsersProviderService;
 //    @Value("${myKeycloak.client.default-role-id}")
 //    private String defaultRoleId;
 //    @Value("${myKeycloak.client.default-role-name}")
@@ -73,8 +73,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ResponseDto deleteClientById(Long id, String token) {
         ClientDto clientDto = getClientById(id);
-
-        //SecurityUserDto securityUserDto = securityUsersProviderService.getUserByUsername(clientDto.getEmail(), token);
+        token = "null";
+       // SecurityUserDto securityUserDto = securityUsersProviderService.getUserByUsername(clientDto.getEmail(), token);
         // Delete client from Keycloak
         //securityUsersProviderService.deleteUserById(securityUserDto.getId(), token);
 
@@ -84,6 +84,7 @@ public class ClientServiceImpl implements ClientService {
         return ResponseDto.builder()
                 .message("Client successfully deleted.")
                 .build();
+
     }
 
     // Helper method to create a user in Keycloak
