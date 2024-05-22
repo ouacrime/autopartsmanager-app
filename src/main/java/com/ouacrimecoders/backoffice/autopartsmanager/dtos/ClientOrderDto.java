@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,11 +24,14 @@ public class ClientOrderDto implements Serializable {
     private Long clientOrderStatusId;
     private String clientOrderStatusName;
     private String clientOrderStatusColor;
+    private List<ClientOrderDetailsDto> clientOrderDetailsDtos = new ArrayList<>();
+
 
 
     public ClientOrderDto(Long id, Double totalPrice, Long clientId, String clientFirstName, String clientLastName,
                           String clientEmail, String clientPhoneNumber, String description,
-                          LocalDateTime dateCreation, LocalDateTime dateUpdate, Long clientOrderStatusId, String clientOrderStatusName, String clientOrderStatusColor) {
+                          LocalDateTime dateCreation, LocalDateTime dateUpdate, Long clientOrderStatusId, String clientOrderStatusName,
+                          String clientOrderStatusColor) {
 
         this.id = id;
         this.totalPrice = totalPrice;
@@ -43,4 +48,5 @@ public class ClientOrderDto implements Serializable {
         this.clientOrderStatusColor = clientOrderStatusColor;
 
     }
+
 }
