@@ -59,11 +59,11 @@ public class CategoryController {
             , @RequestPart(name = "categoryDto") String categoryDtoJson
             , @RequestPart(name = "image", required = false) MultipartFile image) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        CategoryDto categoryDto = null;
+        CategoryDto categoryDto ;
         try {
             // Convert JSON string to CategoryDto
             categoryDto = objectMapper.readValue(categoryDtoJson, CategoryDto.class);
-            categoryDto.setCategoryImage(image);
+            //categoryDto.setCategoryImage(image);
         } catch (IOException e) {
             throw new RuntimeException("Error while transforming productDtoJson to categoryDto Object.");
         }
