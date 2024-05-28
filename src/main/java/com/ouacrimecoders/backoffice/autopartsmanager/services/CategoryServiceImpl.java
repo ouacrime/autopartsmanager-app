@@ -62,31 +62,47 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryDto.setId(null);
         CategoryDto savedCategoryDto = categoryMapper.modelToDto(categoryDao.save(categoryMapper.dtoToModel(categoryDto)));
-        if (savedCategoryDto != null) {
-            imageServiceStrategy.uploadImage(categoryDto.getCategoryImage(), savedCategoryDto.getId());
-            return savedCategoryDto;
-        } else {
-            throw new RuntimeException("Error while saving the product.");
-        }
+        return savedCategoryDto;
+
+//        if (savedCategoryDto != null && categoryDto.getCategoryImage() != null) {
+//            imageServiceStrategy.uploadImage(categoryDto.getCategoryImage(), savedCategoryDto.getId());
+//        } else {
+//            throw new RuntimeException("Error while saving the category.");
+//        }
+//        return savedCategoryDto;
     }
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryDto categoryDto) throws IOException {
         CategoryDto oldCategoryDto = getCategoryById(id);
         categoryDto.setId(oldCategoryDto.getId());
-        if (categoryDto.getCategoryImage() != null) {
-            imageService.deleteImageByFilePathFromLocalSystem(oldCategoryDto.getFilePath());
-            imageDao.deleteByCategoryId(oldCategoryDto.getId());
-            imageServiceStrategy.uploadImage(categoryDto.getCategoryImage(), categoryDto.getId());
-        }
+//        if (categoryDto.getCategoryImage() != null) {
+//            imageService.deleteImageByFilePathFromLocalSystem(oldCategoryDto.getFilePath());
+//            imageDao.deleteByCategoryId(oldCategoryDto.getId());
+//            imageServiceStrategy.uploadImage(categoryDto.getCategoryImage(), categoryDto.getId());
+//        }
         return categoryMapper.modelToDto(categoryDao.save(categoryMapper.dtoToModel(categoryDto)));
     }
 
     @Override
     public ResponseDto deleteCategoryById(Long id) {
         CategoryDto categoryToDelete = getCategoryById(id);
+        if (categoryToDelete == null) {
+            // Handle case where category is not found
+            return ResponseDto.builder()
+                    .message("Category not found.")
+                    .build();
+        }
+
+        // Check if filePath is not null
+        String filePath = categoryToDelete.getFilePath();
+        if (filePath != null) {
+            imageService.deleteImageByFilePathFromLocalSystem(filePath);
+        }
+
+        // Delete the category
         categoryDao.deleteById(id);
-        imageService.deleteImageByFilePathFromLocalSystem(categoryToDelete.getFilePath());
+
         return ResponseDto.builder()
                 .message("Category successfully deleted.")
                 .build();
