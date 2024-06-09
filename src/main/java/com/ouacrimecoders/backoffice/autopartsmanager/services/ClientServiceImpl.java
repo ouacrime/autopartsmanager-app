@@ -4,21 +4,16 @@ package com.ouacrimecoders.backoffice.autopartsmanager.services;
 import com.ouacrimecoders.backoffice.autopartsmanager.dao.ClientDao;
 import com.ouacrimecoders.backoffice.autopartsmanager.dtos.ClientDto;
 import com.ouacrimecoders.backoffice.autopartsmanager.dtos.ResponseDto;
-import com.ouacrimecoders.backoffice.autopartsmanager.dtos.SecurityUserDto;
 import com.ouacrimecoders.backoffice.autopartsmanager.entities.Client;
-import com.ouacrimecoders.backoffice.autopartsmanager.entities.Role;
 import com.ouacrimecoders.backoffice.autopartsmanager.exceptions.EntityAlreadyExistsException;
 import com.ouacrimecoders.backoffice.autopartsmanager.exceptions.EntityNotFoundException;
 import com.ouacrimecoders.backoffice.autopartsmanager.mappers.ClientMapper;
 import com.ouacrimecoders.backoffice.autopartsmanager.services.inter.ClientService;
-import com.ouacrimecoders.backoffice.autopartsmanager.services.inter.SecurityUsersProviderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
