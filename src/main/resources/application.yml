@@ -24,8 +24,9 @@ spring:
         oauth2:
             resourceserver:
                 jwt:
-                    issuer-uri:
-                    jwk-set-uri:
+                  issuer-uri: http://localhost:8520/realms/autopartsmanager
+                  jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
 
     servlet:
         multipart:
@@ -44,3 +45,15 @@ server:
     servlet:
         context-path: /api
     port: 9090
+
+myKeycloak:
+  http:
+    users-endpoint: http://localhost:8520/admin/realms/autopartsmanager/users
+    token-endpoint: http://localhost:8520/realms/autopartsmanager/protocol/openid-connect/token
+    logout-endpoint: http://localhost:8520/realms/autopartsmanager/protocol/openid-connect/logout
+    roles-endpoint: http://localhost:8520/admin/realms/autopartsmanager/roles
+
+  client:
+    default-role-id: 1bef3c1f-dbf3-4823-8e9e-721810ed09db
+    default-role-name: client
+
