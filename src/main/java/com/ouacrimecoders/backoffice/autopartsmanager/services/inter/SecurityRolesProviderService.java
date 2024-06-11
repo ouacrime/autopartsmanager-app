@@ -1,7 +1,7 @@
 package com.ouacrimecoders.backoffice.autopartsmanager.services.inter;
 
 import com.ouacrimecoders.backoffice.autopartsmanager.dtos.ResponseDto;
-import javax.management.relation.Role;
+import com.ouacrimecoders.backoffice.autopartsmanager.entities.Role;
 
 import java.util.List;
 

@@ -28,17 +28,18 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "*/login").permitAll()
-                .anyRequest().permitAll();
+                .anyRequest()
+                .permitAll();
                 //.authenticated();
 
-        //http
-//                .oauth2ResourceServer()
-//                .jwt()
-//                .jwtAuthenticationConverter(jwtAuthConverter);
+        http
+                .oauth2ResourceServer()
+                .jwt()
+                .jwtAuthenticationConverter(jwtAuthConverter);
 
-//        http
-//                .sessionManagement()
-//                .sessionCreationPolicy(STATELESS);
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(STATELESS);
 
         return http.build();
     }

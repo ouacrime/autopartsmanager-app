@@ -40,8 +40,8 @@ public class ClientController {
     public ResponseEntity<ClientDto> addClient(
             HttpServletRequest request,
             @RequestBody ClientDto clientDto) throws IOException {
-        //String token = extractToken(request);
-        return ResponseEntity.ok().body(clientService.addClient(clientDto, null)); //token
+        String token = extractToken(request);
+        return ResponseEntity.ok().body(clientService.addClient(clientDto, token)); //token
     }
 
 
@@ -54,7 +54,7 @@ public class ClientController {
     @DeleteMapping("/{clientId}")
     public ResponseEntity<?> deleteClientById(@PathVariable Long clientId, HttpServletRequest request
     ) {
-        //String token = extractToken(request);
-        return ResponseEntity.ok().body(clientService.deleteClientById(clientId, null));//replace null token
+        String token = extractToken(request);
+        return ResponseEntity.ok().body(clientService.deleteClientById(clientId, token));//replace null token
     }
 }

@@ -1,6 +1,7 @@
 package com.ouacrimecoders.backoffice.autopartsmanager.services;
 
 import com.ouacrimecoders.backoffice.autopartsmanager.dtos.ResponseDto;
+import com.ouacrimecoders.backoffice.autopartsmanager.entities.Role;
 import com.ouacrimecoders.backoffice.autopartsmanager.exceptions.EntityNotFoundException;
 import com.ouacrimecoders.backoffice.autopartsmanager.services.inter.SecurityRolesProviderService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import javax.management.relation.Role;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class KeycloakRolesProviderServiceImpl implements SecurityRolesProviderService {
-    @Value("${myKeycloak.roles-endpoint}")
+    @Value("${myKeycloak.http.roles-endpoint}")
     private String rolesEndpoint;
 
     private final RestTemplate restTemplate;
@@ -57,7 +57,7 @@ public class KeycloakRolesProviderServiceImpl implements SecurityRolesProviderSe
     public Role addRole(Role role, String token) {
         ResponseEntity<Role> response = makeKeycloakRequest(rolesEndpoint, HttpMethod.POST, token, role, Role.class);
         if (response.getStatusCode() == HttpStatus.CREATED) {
-            return getRoleByName(role.getRoleName(), token);
+            return getRoleByName(role.getName(), token);
         } else {
             throw new RuntimeException("Failed to create role in Keycloak");
         }

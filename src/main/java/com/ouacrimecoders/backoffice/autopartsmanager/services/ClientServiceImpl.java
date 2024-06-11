@@ -4,16 +4,21 @@ package com.ouacrimecoders.backoffice.autopartsmanager.services;
 import com.ouacrimecoders.backoffice.autopartsmanager.dao.ClientDao;
 import com.ouacrimecoders.backoffice.autopartsmanager.dtos.ClientDto;
 import com.ouacrimecoders.backoffice.autopartsmanager.dtos.ResponseDto;
+import com.ouacrimecoders.backoffice.autopartsmanager.dtos.SecurityUserDto;
 import com.ouacrimecoders.backoffice.autopartsmanager.entities.Client;
+import com.ouacrimecoders.backoffice.autopartsmanager.entities.Role;
 import com.ouacrimecoders.backoffice.autopartsmanager.exceptions.EntityAlreadyExistsException;
 import com.ouacrimecoders.backoffice.autopartsmanager.exceptions.EntityNotFoundException;
 import com.ouacrimecoders.backoffice.autopartsmanager.mappers.ClientMapper;
 import com.ouacrimecoders.backoffice.autopartsmanager.services.inter.ClientService;
+import com.ouacrimecoders.backoffice.autopartsmanager.services.inter.SecurityUsersProviderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,11 +27,11 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
     private final ClientDao clientDao;
     private final ClientMapper clientMapper;
-  //  private final SecurityUsersProviderService securityUsersProviderService;
-//    @Value("${myKeycloak.client.default-role-id}")
-//    private String defaultRoleId;
-//    @Value("${myKeycloak.client.default-role-name}")
-//    private String defaultRoleName;
+    private final SecurityUsersProviderService securityUsersProviderService;
+    @Value("${myKeycloak.client.default-role-id}")
+    private String defaultRoleId;
+    @Value("${myKeycloak.client.default-role-name}")
+    private String defaultRoleName;
 
     @Override
     public List<ClientDto> getClientsByQuery(Long clientId, String firstName, String lastName,
@@ -51,7 +56,7 @@ public class ClientServiceImpl implements ClientService {
         // Save client in database
         ClientDto savedClientDto = clientMapper.modelToDto(clientDao.save(clientMapper.dtoToModel(clientDto)));
 
-        //createKeycloakUser(clientDto, token);
+        createKeycloakUser(clientDto, token);
 
         // Return the saved client DTO
         return savedClientDto;
@@ -69,9 +74,9 @@ public class ClientServiceImpl implements ClientService {
     public ResponseDto deleteClientById(Long id, String token) {
         ClientDto clientDto = getClientById(id);
         token = "null";
-       // SecurityUserDto securityUserDto = securityUsersProviderService.getUserByUsername(clientDto.getEmail(), token);
-        // Delete client from Keycloak
-        //securityUsersProviderService.deleteUserById(securityUserDto.getId(), token);
+        SecurityUserDto securityUserDto = securityUsersProviderService.getUserByUsername(clientDto.getEmail(), token);
+         //Delete client from Keycloak
+        securityUsersProviderService.deleteUserById(securityUserDto.getId(), token);
 
         // Delete client from database
         clientDao.deleteById(id);
@@ -83,23 +88,23 @@ public class ClientServiceImpl implements ClientService {
     }
 
     // Helper method to create a user in Keycloak
-//    private SecurityUserDto createKeycloakUser(ClientDto clientDto, String token) {
-//        SecurityUserDto user = new SecurityUserDto();
-//        user.setUsername(clientDto.getEmail()); // Use email as username
-//        user.setFirstName(clientDto.getFirstName());
-//        user.setLastName(clientDto.getLastName());
-//        user.setEnabled(true); // Enable user by default
-//
-//        user = securityUsersProviderService.addUser(user, token);
-//        // Assign default role to client (default role is client you have to specify it in yml or properties file)
-//        List<Role> roles = new ArrayList<>();
-//        roles.add(Role.builder()
-//                .id(defaultRoleId)
-//                .name(defaultRoleName)
-//                .build());
-//        securityUsersProviderService.assignRoleToUser(user.getId(), roles, token);
-//
-//        // Add user to Keycloak
-//        return user;
-//    }
+    private SecurityUserDto createKeycloakUser(ClientDto clientDto, String token) {
+        SecurityUserDto user = new SecurityUserDto();
+        user.setUsername(clientDto.getEmail()); // Use email as username
+        user.setFirstName(clientDto.getFirstName());
+        user.setLastName(clientDto.getLastName());
+        user.setEnabled(true); // Enable user by default
+
+        user = securityUsersProviderService.addUser(user, token);
+        // Assign default role to client (default role is client you have to specify it in yml or properties file)
+        List<Role> roles = new ArrayList<>();
+        roles.add(Role.builder()
+                .id(defaultRoleId)
+                .name(defaultRoleName)
+                .build());
+        securityUsersProviderService.assignRoleToUser(user.getId(), roles, token);
+
+        // Add user to Keycloak
+        return user;
+    }
 }
